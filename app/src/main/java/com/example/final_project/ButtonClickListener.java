@@ -1,12 +1,6 @@
 package com.example.final_project;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 public class ButtonClickListener implements View.OnClickListener {
     static int current_turn = 1; // 1 = black, 2 = white
@@ -18,10 +12,12 @@ public class ButtonClickListener implements View.OnClickListener {
     }
 
     @Override
-    public void onClick(View view) {
-        TileButton button = (TileButton) view;
-        button.setState(current_turn);
-        current_turn = ((current_turn) % 2) + 1;
-        containing_activity.generate_game_string();
+    public void onClick(View v) {
+        TileButton button = (TileButton) v;
+        if (button.isPlayable()) {
+            button.playTile(current_turn);
+            current_turn = ((current_turn) % 2) + 1;
+            containing_activity.generate_game_string();
+        }
     }
 }

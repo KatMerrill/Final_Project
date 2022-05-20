@@ -1,9 +1,6 @@
 package com.example.final_project;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
@@ -13,12 +10,11 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     String game_string = "";
-    TileButton[][] tiles = new TileButton[8][8];
+    TileButton[][] tiles = new TileButton[5][5];
     LinearLayout[] horiz_layouts = new LinearLayout[8];
     ArrayList<View> selections = new ArrayList<View>();
     LinearLayout vert_layout; // contained by the overall Constraint layout, contains the horiz_layouts
     ButtonClickListener buttonClickListener;
-    // othello.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,14 +38,14 @@ public class MainActivity extends AppCompatActivity {
         // creates the buttons and adds them to the horizontal layouts
         for(int x = 0; x < tiles.length; x++) {
             for (int y = 0; y < tiles[0].length; y++) {
-                tiles[x][y] = new TileButton(this);
+                tiles[x][y] = new TileButton(this, x, y);
                 tiles[x][y].setState(0);
                 tiles[x][y].setOnClickListener(buttonClickListener);
                 horiz_layouts[x].addView(tiles[x][y]);
             }
         }
 
-        generate_game_string(tiles);
+//        generate_game_string(tiles);
     }
     public void generate_game_string(TileButton[][] tiles) {
         game_string = "";
