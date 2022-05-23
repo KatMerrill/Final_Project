@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Dots</string>
+    <string name="options">Options</string>
+    <string name="instructions_label">Instructions</string>
+    <string name="reset_label">Reset</string>
+    <string name="instructions">Turns alternate between the two players: black and white. On your turn, play your tile on any empty square adjacent to the most recently played tile. When no more tiles can be played, whoever played last wins.</string>
+
 </resources>

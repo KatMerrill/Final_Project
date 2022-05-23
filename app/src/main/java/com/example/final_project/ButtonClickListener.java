@@ -17,7 +17,10 @@ public class ButtonClickListener implements View.OnClickListener {
         if (button.isPlayable()) {
             button.playTile(current_turn);
             current_turn = ((current_turn) % 2) + 1;
-            containing_activity.generate_game_string();
+            int results = button.evaluateWin();
+            if(results > 0) {
+                // TODO Confetti here. https://github.com/DanielMartinus/Konfetti
+            }
         }
     }
 }

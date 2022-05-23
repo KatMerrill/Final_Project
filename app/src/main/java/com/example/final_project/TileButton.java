@@ -44,7 +44,7 @@ public class TileButton extends androidx.appcompat.widget.AppCompatImageView {
     public int getState() {
         return state;
     }
-    public boolean isPlayable() {
+    public boolean isPlayable(int row, int col) {
         // if this space is already taken, cannot be played
         if(state != 0) {
             return false;
@@ -62,5 +62,37 @@ public class TileButton extends androidx.appcompat.widget.AppCompatImageView {
         }
         return false;
     }
-//    public boolean evaluateWin() { }
+    public boolean isPlayable() {
+        return isPlayable(row, col);
+    }
+    // resets the "global" variables
+    public void reset() {
+        prevRow = -1;
+        prevCol = -1;
+    }
+    // returns 0 for game not over, 1 for black wins, 2 for white wins
+    public int evaluateWin() {
+        // if any of the nearby positions are playable, the game hasn't ended
+        if(row + 1 < states.length) {
+            if(isPlayable(row + 1, col)) {
+                return 0;
+            }
+        }
+        if(row - 1 > -1) {
+            if(isPlayable(row - 1, col)) {
+                return 0;
+            }
+        }
+        if(col + 1 < states[0].length) {
+            if(isPlayable(row, col + 1)) {
+                return 0;
+            }
+        }
+        if(col - 1 > -1) {
+            if(isPlayable(row, col - 1)) {
+                return 0;
+            }
+        }
+        return state;
+    }
 }

@@ -2,8 +2,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/instructions"
-        android:title="Instructions" />
+        android:title="@string/instructions_label" />
     <item
         android:id="@+id/reset"
-        android:title="Reset" />
+        android:title="@string/reset_label" />
 </menu>
