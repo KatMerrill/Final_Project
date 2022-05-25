@@ -88,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
                 horiz_layouts[x].addView(tiles[x][y]);
             }
         }
+        tiles[0][0].addView(findViewById(R.id.activity_main));
     }
 
     public void reset_game() {
@@ -99,4 +100,5 @@ public class MainActivity extends AppCompatActivity {
         // resets the global variables
         tiles[0][0].reset();
     }
+
 }

@@ -3,7 +3,18 @@ package com.example.final_project;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.view.View;
 import android.widget.LinearLayout;
+
+import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
+
+import nl.dionsegijn.konfetti.core.PartyFactory;
+import nl.dionsegijn.konfetti.core.Position;
+import nl.dionsegijn.konfetti.core.emitter.Emitter;
+import nl.dionsegijn.konfetti.core.emitter.EmitterConfig;
+import nl.dionsegijn.konfetti.core.models.Shape;
+import nl.dionsegijn.konfetti.xml.KonfettiView;
 
 public class TileButton extends androidx.appcompat.widget.AppCompatImageView {
     // fields shared by all tiles
@@ -11,9 +22,9 @@ public class TileButton extends androidx.appcompat.widget.AppCompatImageView {
     static int board_size = 5;
     static int[][] states = new int[board_size][board_size];
     static int prevRow = -1, prevCol = -1;
+    static View parentView;
 
     // fields belonging to one tile
-    int state = 0; // starts empty
     int row, col;
 
     public TileButton(Context context) {
@@ -29,9 +40,11 @@ public class TileButton extends androidx.appcompat.widget.AppCompatImageView {
         this.row = row;
         this.col = col;
     }
+    public void addView(View v) {
+        parentView = v;
+    }
     public void setState(int state) {
         // when a tile is selected, updates the data fields related to it
-        this.state = state;
         states[row][col] = state;
         setImageBitmap(bitmaps[state]);
     }
@@ -41,12 +54,9 @@ public class TileButton extends androidx.appcompat.widget.AppCompatImageView {
         prevRow = row;
         prevCol = col;
     }
-    public int getState() {
-        return state;
-    }
     public boolean isPlayable(int row, int col) {
         // if this space is already taken, cannot be played
-        if(state != 0) {
+        if(states[row][col] != 0) {
             return false;
         }
         // if this is the first turn, can play anywhere
@@ -72,6 +82,10 @@ public class TileButton extends androidx.appcompat.widget.AppCompatImageView {
     }
     // returns 0 for game not over, 1 for black wins, 2 for white wins
     public int evaluateWin() {
+        // if the game is just starting, it isn't over
+        if(prevRow == -1) {
+            return 0;
+        }
         // if any of the nearby positions are playable, the game hasn't ended
         if(row + 1 < states.length) {
             if(isPlayable(row + 1, col)) {
@@ -93,6 +107,28 @@ public class TileButton extends androidx.appcompat.widget.AppCompatImageView {
                 return 0;
             }
         }
-        return state;
+        return states[row][col];
+    }
+
+    public void confetti() {
+        KonfettiView konfettiView = parentView.findViewById(R.id.konfetti_view);
+        // emitter is responsible for how fast the confetti generates, and for how long
+        EmitterConfig emitterConfig = new Emitter(100L, TimeUnit.MILLISECONDS).max(100);
+        // .start() is what actually runs the confetti animation
+        konfettiView.start(
+                new PartyFactory(emitterConfig)
+                        // spread accounts for how many directions the confetti goes in (in our case, all directions)
+                        .spread(360)
+                        // uses square and circular confetti
+                        .shapes(Arrays.asList(Shape.Square.INSTANCE, Shape.Circle.INSTANCE))
+                        // uses the colors currently used in the application. here, listed as 0x + hex number
+                        .colors(Arrays.asList(0x8BC34A, 0x73A738, 0xE3ECD9, 0xFFFFBBB8))
+                        // the speed of each piece of confetti varies between these values
+                        .setSpeedBetween(0f, 30f)
+                        // the starting position
+                        .position(new Position.Relative(0.5, 0.3))
+                        // creates the emitter configuration
+                        .build()
+        );
     }
 }
