@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import nl.dionsegijn.konfetti.core.PartyFactory;
@@ -109,8 +110,17 @@ public class TileButton extends androidx.appcompat.widget.AppCompatImageView {
         }
         return states[row][col];
     }
+    // the confetti animation that plays when someone wins
+    public void confetti(int winner) {
+        // sets colors based on who won
+        List<Integer> col;
+        if(winner == 1) { // black
+            col = Arrays.asList(0xFF000000, 0xD84450, 0xE1ACC8, 0x9F244E);
+        }
+        else { // white
+            col = Arrays.asList(0x8BC34A, 0x73A738, 0xE3ECD9, 0xB5F884);
+        }
 
-    public void confetti() {
         KonfettiView konfettiView = parentView.findViewById(R.id.konfetti_view);
         // emitter is responsible for how fast the confetti generates, and for how long
         EmitterConfig emitterConfig = new Emitter(100L, TimeUnit.MILLISECONDS).max(100);
@@ -122,7 +132,7 @@ public class TileButton extends androidx.appcompat.widget.AppCompatImageView {
                         // uses square and circular confetti
                         .shapes(Arrays.asList(Shape.Square.INSTANCE, Shape.Circle.INSTANCE))
                         // uses the colors currently used in the application. here, listed as 0x + hex number
-                        .colors(Arrays.asList(0x8BC34A, 0x73A738, 0xE3ECD9, 0xFFFFBBB8))
+                        .colors(col)
                         // the speed of each piece of confetti varies between these values
                         .setSpeedBetween(0f, 30f)
                         // the starting position

@@ -25,10 +25,15 @@ public class MainActivity extends AppCompatActivity {
     Button optionButton;
     TextView instructions;
 
+    //items related to current player's turn and results
+    View indicator;
+    TextView winner_panel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        // sets up for the buttons
         vert_layout = findViewById(R.id.vert_layout);
         vert_layout.setGravity(Gravity.CENTER);
 
@@ -42,12 +47,20 @@ public class MainActivity extends AppCompatActivity {
 
             vert_layout.addView(horiz_layouts[x]);
         }
-        buttonClickListener = new ButtonClickListener(this);
-
-        setup_game();
 
         instructions = findViewById(R.id.instructions);
         instructions.setVisibility(View.INVISIBLE);
+
+        winner_panel = findViewById(R.id.display_winner);
+        winner_panel.setVisibility(View.INVISIBLE);
+
+        // indicator refers to whose turn it is -- initialized before buttonClickListener
+        indicator = findViewById(R.id.player_indicator);
+        buttonClickListener = new ButtonClickListener(this);
+        buttonClickListener.addIndicator(indicator, winner_panel);
+
+        // sets up the actual game: buttons and such
+        setup_game();
 
         // options button
         optionButton = findViewById(R.id.option_button);
@@ -99,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
         }
         // resets the global variables
         tiles[0][0].reset();
+        winner_panel.setVisibility(View.INVISIBLE);
     }
 
 }

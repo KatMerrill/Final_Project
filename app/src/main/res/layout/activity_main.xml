@@ -37,6 +37,21 @@
             />
     </LinearLayout>
 
+    <!-- The view that displays the winner once the round is over   -->
+    <TextView
+        android:id="@+id/display_winner"
+        android:text="@string/winner"
+        android:background="@color/green"
+        android:paddingHorizontal="50dp"
+        android:paddingVertical="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="@id/header"
+        app:layout_constraintRight_toRightOf="@id/header"
+        app:layout_constraintTop_toTopOf="@id/header"
+        app:layout_constraintBottom_toBottomOf="@id/header"
+        />
+
     <LinearLayout
         android:id="@+id/vert_layout"
         android:layout_width="wrap_content"
